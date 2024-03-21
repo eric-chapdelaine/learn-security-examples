@@ -1,1 +1,17 @@
 Briefly explain the vulnerability and why the secure version prevents the vulnerability.
+
+`insecure.js` was vulnerable to spoofing because it does not correctly handle
+session cookies by setting `httpOnly: false` which makes cookies accessible 
+via client-side JavaScript. This can be exploited through Cross-Site Scripting
+attacks which can allow attackers to steal users' session cookies (via a 
+malicious website) to impersonate them.
+
+`secure.js` addressing this by setting `httpOnly: true` and `sameSite: true`
+for the cookies. The `sameSite: true` attribute restricts access to the session
+cookie by only allowing them to be seen by the same site, reducing the risk of
+Cross-Site Request Forgery (CSRF) attacks.
+
+The two CIA properties violated are confidentiality and integrity. Spoofing
+violates confidentiality by allowing unauthorized access to information that
+should only be accessible to authorized users. It also compromises integrity,
+as the attacker could manipulate data while impersonating an authorized user.

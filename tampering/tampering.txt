@@ -1,0 +1,15 @@
+`insecure.js` does not handle its user input correctly, leaving it vulnerable 
+to attacks. When registering a new user, it directly uses the user-provided name
+without sanitizing or escaping it. This allows an attacker to inject malicious
+scripts into the web pages viewed by other users (Cross-Site Scripting). Since
+the input is directly reflected in the response to users, an attacker could
+potentially steal session cookies or perform actions on behalf of other users.
+
+`secure.js` pervents this kind of attack by sanitizing the user input with the
+`escapeHTML` function before storing it. This function converts HTML blocks to
+their corresponding HTML codes, which ensures that the input is treated as text
+and not code. This prevents the execution of scripts.
+
+Tampering with data violates the Integrity component of the CIA properties. 
+Integrity ensures that data is accurate and untampered with. This is violated
+as users can tamper with data by inserting malicious scripts.
