@@ -1,0 +1,18 @@
+The insecure version of the server contains a  privilege escalation 
+vulnerability because the route verifies the role of the user based
+on the information provided in the request body (userId), without
+ever verifying that the user has the right authorization to change
+roles (i.e. there is no verification that the user is who they say
+they are). Anybody can escalate their privileges to 'admin' merely 
+by changing the 'userId' in the request body. The secure version
+of this fixes this by introducing session-based authentication.
+This uses session middleware to store a cookie on the user's device
+and it is sent with each request. Now, the '/update-role' route
+checks if the user is logged in and has the 'admin' role. This
+guarentees that only those who have the correct authentication are
+allowed to update user roles.
+
+To make this server more secure, we can ensure the request body is 
+valid by running validation and sanitization. We also need to protect
+the cookies if they are used for authentication so we should take 
+measures to stop cross site scripting.

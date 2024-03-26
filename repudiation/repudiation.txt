@@ -1,2 +1,23 @@
 - Briefly explain the vulnerability and why the secure version is better at preventing repudiation than the insecure version.
+
+The insecure version of the server allows users to deny performing an action
+because there is no way of proving if they did or did not do it. This version
+does not have any logging or user authentication for sending or receiving
+messages. Without these logs or authenitcation, it's impossible to verify
+who performed certain actions or to audit the behavior of users.
+
+The secure version fixes this by implementing logging and authenitcation 
+(although the code for authenitcation is not fully there). In this version,
+every request is logged with a timestamp, method URL, and requester's IP 
+address. This prevents users from denying that they performed an action
+(or users falsly taking credit for something they didn't do). The 
+authenitcation requires that only logged in users can perform actions.
+
+
 - What additional security mechanisms can you incorporate to prevent such attacks?
+
+To further help with the security of the system, we can implement more robust
+authentication (such as JWT) to further ensure that users are who they claim 
+to be. Since we now have the log files, we must ensure that they are kept safe
+because if a user directly modifies the 'server.log' file, our logging is
+useless (in fact, it's worse because now we have a false sense of confidence).

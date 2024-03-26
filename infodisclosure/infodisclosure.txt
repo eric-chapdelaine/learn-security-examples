@@ -1,3 +1,28 @@
 Briefly explain the vulnerability and why the secure version prevents the vulnerability.
+
+The insecure version of this program is vulnerable to NoSQL injection attacks because
+of its direct use of user-provided values in the database query without any form of
+data validation or sanitization. In this example, the username variable was interpreted
+as {'$ne': ''} by MongoDB which means "not equal to the empty string". The secure version
+prevents this vulnerability by checking if the username is the correct data type (string
+as opposed to an object which can change the meaning of the query). The secure version also
+sanitizes the input by replacing potentially problamatic characters with the empty string.
+This is important because special characters such as '$', '{', '}', etc. are often used
+in injection attacks to alter the meaning of the query.
+
 Which CIA property does tampering violate?
+
+This vulnerability violates Integrity and Confidentiality. Integrity is
+compromised because an attacker could alter the data or behavior of the
+database through injcetion, leading to modifications made by an
+unauthorized  user. Confidentiality is also violated because an unauthorized
+user can view information that they are not authorized to see by modifying
+the query.
+
 What additional security mechanisms can you incorporate?
+
+On top of data validation and sanitization, we can incorporate the use of
+prepared statements and parameterized queries to ensure that user-passed
+variable are treated as the literal string. Additionally, we can implement
+permissions for the endpoint directly so even if the user was able to
+change the query, no sensitive information could be modified or viewed.

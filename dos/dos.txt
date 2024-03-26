@@ -1,2 +1,16 @@
 - Briefly explain the vulnerability and why the secure version prevents the vulnerability.
+
+The insecure version is vulnerable to a DoS attack because it fails to handle
+bad input gracefully and as a result the entire server crashes (leaving it
+unoperational for legitimate users). The secure version wraps the entire
+request in a try-catch block which means that if there is bad input, a 400
+code will be sent to the user and the server will remain running.
+
 - What additional security mechanisms can you incorporate to prevent such attacks?
+
+Both of these programs are still vulnerable to a DoS attack by not sanitizing and
+validating input. The user can still manipulate the query to make it more expensive
+than intented (which would slow down the rest of the users) or cause it the server
+to crash then. To prevent other attacks like this, the program must sanitize and
+validate its input. Another option would to implement rate limiting to prevent
+an attacker from sending a large number of requests in a short period of time.
